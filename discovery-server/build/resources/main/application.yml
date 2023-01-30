@@ -10,3 +10,6 @@ eureka:
 
   application:
     name: discovery-server
+
+  username: ${EUREKA_USERNAME:eureka}
+  password: ${EUREKA_PASSWORD:password}
