@@ -31,6 +31,8 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     runtimeOnly 'com.h2database:h2'
     implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+    implementation 'org.springframework.cloud:spring-cloud-starter-sleuth:3.1.6'
+    implementation 'org.springframework.cloud:spring-cloud-sleuth-zipkin'
 }
 
 dependencyManagement {

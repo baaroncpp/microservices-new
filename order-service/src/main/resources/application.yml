@@ -13,7 +13,67 @@ spring:
   application:
     name: order-service
 
+  zipkin:
+    base-url: http://localhost:9411
+
+  sleuth:
+    sampler:
+      probability: 1.0
+
+  kafka:
+    bootstrap-servers: localhost:9092
+    template:
+      default-topic: notificationTopic
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      group-id: notificationId
+      properties:
+        spring:
+          json:
+            type:
+              mapping:
+                - event: com.bwongo.orderservice.events.OrderPlacedEvent
+
 eureka:
   client:
     serviceUrl:
       defaultZone: http://eureka:password@localhost:8761/eureka
+
+#Actuator properties
+management:
+  health:
+    circuitbreakers:
+      enabled: true
+  endpoints:
+       web:
+         exposure:
+           include: "*"
+  endpoint:
+    health:
+      show-details: always
+
+#Resilence4j Properties
+resilience4j:
+  circuitbreaker:
+    instances:
+      inventory:
+        register-health-indicator: true
+        event-consumer-buffer-size: 10
+        sliding-window-type: COUNT_BASED
+        sliding-window-size: 5
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 5s
+        permitted-number-of-calls-in-half-open-state: 3
+        automatic-transition-from-open-to-half-open-enabled: true
+#timeOut if no response is coming from the microservice
+  timelimiter:
+    instances:
+      inventory:
+        timeout-duration: 3s
+#Retry accessing the microservice with longer wait duration 3 more times if no response then let circuit breaker handle with normal flow
+  retry:
+    instances:
+      inventory:
+        max-attempts: 3
+        wait-duration: 5s

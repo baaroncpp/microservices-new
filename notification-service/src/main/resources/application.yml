@@ -1,0 +1,35 @@
+server:
+  port: 0
+
+spring:
+  application:
+    name: notification-service
+
+  kafka:
+    bootstrap-servers: localhost:9092
+    template:
+      default-topic: notificationTopic
+    consumer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      group-id: notificationId
+      properties:
+        spring:
+          json:
+            type:
+              mapping:
+                - event: com.bwongo.orderservice.events.OrderPlacedEvent
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://eureka:password@localhost:8761/eureka
+
+  zipkin:
+    base-url: http://localhost:9411
+
+  sleuth:
+    sampler:
+      integration:
+        enabled: true
+      probability: 1.0

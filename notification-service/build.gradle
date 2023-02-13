@@ -23,20 +23,15 @@ ext {
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.kafka:spring-kafka'
     compileOnly 'org.projectlombok:lombok'
-    runtimeOnly 'org.postgresql:postgresql'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    implementation platform('org.testcontainers:testcontainers-bom:1.17.6') //import bom
-    testImplementation('org.testcontainers:postgresql') //no version specified
-    testImplementation('org.testcontainers:junit-jupiter')
-    runtimeOnly 'com.h2database:h2'
-    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
-    //implementation 'org.springframework.boot:spring-boot-starter-sleuth'
-    implementation "org.springframework.cloud:spring-cloud-starter-sleuth"
+    testImplementation 'org.springframework.kafka:spring-kafka-test'
+    implementation 'org.springframework.cloud:spring-cloud-starter-sleuth:3.1.6'
     implementation 'org.springframework.cloud:spring-cloud-sleuth-zipkin'
+    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 }
 
 dependencyManagement {
